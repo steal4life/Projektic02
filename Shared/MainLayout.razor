@@ -1,0 +1,27 @@
+﻿@inherits LayoutComponentBase
+
+<PageTitle>Projektic</PageTitle>
+
+<Layout>
+    <LayoutHeader Fixed>
+        <Row>
+            <Column ColumnSize="ColumnSize.Is9.WithOffset">
+                <NavBarVerzija2></NavBarVerzija2>
+            </Column>
+        </Row>
+        
+    </LayoutHeader>
+    <Layout Sider>
+        <LayoutSider>
+            <LayoutSiderContent>
+                <NavMenu></NavMenu>
+            </LayoutSiderContent>
+        </LayoutSider>
+
+        <Layout>
+            <LayoutContent Padding="Padding.Is4.OnX">
+                @Body
+            </LayoutContent>
+        </Layout>
+    </Layout>
+</Layout>

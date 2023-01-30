@@ -1,0 +1,91 @@
+﻿@page "/todo"
+
+<h3>Ovo je Todo Lista</h3>
+
+<p>Stvaraju se nova polja(todo elementi na klik add-a), prekon Count funkcije program provjerava koliko je još ostalo poslova za odradio te koliko je odrađenih poslova...
+    
+
+</p>
+
+<h3>Completed: (@todos.Count(todo=>todo.IsDone)) Pending: (@todos.Count(todo=>!todo.IsDone))</h3>
+
+
+<ul>
+    @foreach (var todo in todos)
+    {
+            i = i + 1;
+            var index = i;
+              
+        
+        
+        <ListGroup>
+            <ListGroupItem>
+                <Check TValue="bool" @bind-Checked="@todo.IsDone">Check Me</Check>
+            </ListGroupItem>
+            <ListGroupItem>
+                <TextEdit ReadOnly @bind-Text="@todo.Title"></TextEdit>
+            </ListGroupItem>
+            <ListGroupItem>
+                <DateEdit TValue="DateTime?" />
+            </ListGroupItem>
+           
+        </ListGroup>
+    }
+</ul>
+
+<TextEdit @bind-Text="@newtodo"></TextEdit>
+
+
+<Button Clicked="@AddTodo" Color="Color.Primary">Add</Button>
+<Button Clicked="@DeletTodo" Color="Color.Danger">Delete Last</Button>
+<Button Clicked="@DeleteChecked" Color="Color.Danger">Delete Checked</Button>
+
+@code {
+    private IList<TodoItem> todos = new List<TodoItem>();
+
+    private string newtodo;
+    private int index;
+    private int i;
+
+    Task AddTodo()
+    {
+        if (!string.IsNullOrWhiteSpace(newtodo))
+        {
+            todos.Add(new TodoItem()
+                {
+                    Title = newtodo
+                });
+            newtodo = String.Empty;
+
+        }
+
+        return Task.CompletedTask;
+    }
+    //value of check box
+
+    bool IsDone;
+
+    Task DeletTodo()
+    {
+        //doda sam count da minja zadnji dodani
+
+        if (todos.Any())
+        {
+            todos.Remove(todos.Last());
+        }
+
+        return Task.CompletedTask;
+    }
+
+    Task DeleteChecked()
+    {
+
+        var checkedTodos = todos.Where(todo => todo.IsDone).ToList();
+        todos = todos.Where(todo => !todo.IsDone).ToList();
+
+        return Task.CompletedTask;
+    }
+
+   
+}
+
